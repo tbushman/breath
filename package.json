@@ -1,0 +1,55 @@
+{
+  "name": "breath",
+  "productName": "breath",
+  "description": "Electron deployer for custom app",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tbushman/breath.git"
+  },
+  "authors": [
+    "Tracey Bushman <tracey.bushman@gmail.com>"
+  ],
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "start": "./app/node-cmd.cmd && npm install && node ./app/start-electron.js",
+    "pack": "build --dir",
+    "dist": "build --win"
+  },
+  "build": {
+    "appId": "com.electron.breath_b",
+    "productName": "breath_b",
+    "asar": true,
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://s3-us-west-2.amazonaws.com/traceybushman/b"
+      },
+      {
+        "provider": "github"
+      }
+    ],
+    "extraResources": [
+      "extra"
+    ],
+    "win": {
+      "icon": "build/favicon.ico",
+      "target": "nsis",
+      "publisherName": "Open Source Developer, Tracey Bushman"
+    },
+    "squirrelWindows": {
+      "iconUrl": "build/favicon.ico"
+    }
+  },
+  "homepage": "https://s3-us-west-2.amazonaws.com/traceybushman/b",
+  "devDependencies": {
+    "electron": "^1.8.0",
+    "electron-builder": "^19.27.3"
+  },
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "winston": "^2.3.1"
+  }
+}

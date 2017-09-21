@@ -1,0 +1,27 @@
+doctype html
+html
+	head
+		meta(name="viewport", charset="utf-8")
+		title= appTitle
+		link(rel="icon" href="/img/favicon.ico" type="image/x-icon")
+		link(rel="stylesheet" href="/stylesheets/style.css")
+		script(type="text/javascript", src="/scripts/jquery-3.2.1.min.js")
+		script(type="text/javascript", src="/scripts/moment-with-locales.min.js")
+		script(type="text/javascript", src="/scripts/d3.v3.min.js" charset="utf-8")
+		script(type="text/javascript", src="/scripts/fraction.min.js")
+	body
+		div.ms-Grid
+			div.ms-Grid-row
+				block content
+					code []
+		script(type="text/javascript").
+			function breatheIn(){
+				setInterval(function(){
+					
+				}, 500)
+			}
+			$(document).ready(function(){
+				setTimeout(function(){
+					
+				}, 4000)
+			});

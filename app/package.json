@@ -1,0 +1,33 @@
+{
+  "name": "breath",
+  "productName": "breath",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tbushman/breath.git"
+  },
+  "description": "breath",
+  "main": "main.js",
+  "author": "TBushman",
+  "license": "MIT",
+  "dependencies": {
+    "@google/maps": "^0.3.1",
+    "async": "^2.5.0",
+    "d3": "^3.5.17",
+    "debug": "^2.6.8",
+    "dotenv": "^2.0.0",
+    "electron-updater": "^2.9.3",
+    "express": "^4.15.4",
+    "fraction.js": "^3.3.1",
+    "jquery": "^3.2.1",
+    "mathjs": "^3.16.3",
+    "moment": "^2.18.1",
+    "pug": "^2.0.0-rc.4",
+    "serve-favicon": "^2.4.4",
+    "strip": "^3.0.0",
+    "underscore": "^1.8.3",
+    "url": "^0.11.0",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {}
+}
