@@ -1,86 +1,98 @@
 var electron = require('electron');
 var app = electron.app;
-var os = require('os');
 var BrowserWindow = electron.BrowserWindow;
 var ipcMain = electron.ipcMain;
-var logger = require('winston');
 var fs = require('fs');
 var async = require('async');
-var autoUpdater = require('electron-updater').autoUpdater;
-var dialog = electron.dialog;
 var Menu = electron.Menu;
 var counter = 0;
+var scale = [
+	{w:150, h:150},
+	{w:130, h:555}
+]
 
 
-logger.level = 'debug';
-global.logger = logger;
+var windowWidth, windowHeight, bounds, aspectRatio, screenWidth = null, screenHeight = null, mainWindow = null;
+function handleThemeChange(bounds){
+	mainWindow.setContentBounds(bounds)
+	aspectRatio = bounds.width / bounds.height;
+	mainWindow.setAspectRatio(aspectRatio);
+}
 
-// Keep reference of main window because of GC
-var mainWindow = null;
-
-autoUpdater.addListener('update-available', () => {
-	console.log('update available')
-})
-autoUpdater.addListener('checking-for-update', () => {
-	console.log('checking-for-update')
-})
-autoUpdater.addListener('update-not-available', () => {
-	console.log('update-not-available')
-})
-autoUpdater.addListener('update-downloaded', (e) => {
-	console.log(e)
-	dialog.showMessageBox({
-		message: 'An update is available. Do you want to install it?',
-		buttons: ['YES', 'NO']					
-	}, function(index){
-		if(index === 0) {
-			sd_type = 'autoupdate';
-			autoUpdater.quitAndInstall();
-			return true
-		} else {
-			e.preventDefault()
-		}
-	})
-		
-})
-autoUpdater.setFeedURL({
-		provider: 'generic',
-		url: 'https://s3-us-west-2.amazonaws.com/traceybushman/b'
-});
-autoUpdater.checkForUpdates();
-
-
-// Quit when all windows are closed
-app.on('window-all-closed', function() {
+ipcMain.on('screen-size', function(e, size){
+	screenWidth = size.screenwidth;
+	screenHeight = size.screenheight;
+	theme = parseInt(size.theme,10);
+	windowWidth = scale[theme].w;
+	windowHeight = scale[theme].h;
+	bounds = {
+		x: screenWidth - windowWidth,
+		y: screenHeight - windowHeight,
+		width: windowWidth,
+		height: windowHeight 
+	};
 	
+	handleThemeChange(bounds);
+})
+
+
+// chrome resolution fix
+app.commandLine.appendSwitch('high-dpi-support', 1);
+app.commandLine.appendSwitch('force-device-scale-factor', 1);
+//app.setBounds(bounds);
+// Quit when all windows are closed
+app.on('window-all-closed', function() {	
 	app.quit();
 });
 
-app.on('browser-window-created', function(){
-	
-})
-
 // When application is ready, create application window
 app.on('ready', function() {
-	logger.debug("Starting application");
+	windowWidth = windowWidth ? windowWidth : 150;
+	windowHeight = windowHeight ? windowHeight : 150;
 	app.setAppUserModelId('com.electron.breath_b');
-		// Create main window
-		// Other options available at:
-		// http://electron.atom.io/docs/latest/api/browser-window/#new-browserwindow-options
-		mainWindow = new BrowserWindow({
-				name: "breath",
-				width: 70,
-				height: 780
-		});
+	// Create main window
+	// Other options available at:
+	// http://electron.atom.io/docs/latest/api/browser-window/#new-browserwindow-options
+	mainWindow = new BrowserWindow({
+		name: "breath",
+		width: windowWidth,
+		height: windowHeight,
+		x: screenWidth ? bounds.x : 0,
+		y: screenHeight ? bounds.y : 0,
+		useContentSize: true,
+		minimizable: true
+	});
+	mainWindow.setAspectRatio(windowWidth/windowHeight);
 	var template = [
 	{
-		label: 'File',
+		label: 'Theme',
 		submenu: [
-			{
-				label: 'Home',
-				click () { mainWindow.webContents.send('home', 'home')}
+			{ 
+				label: 'grow',
+				click () { 
+					mainWindow.webContents.send('theme', '0')
+					
+				}
 			},
-			{ type: 'separator' },
+			{ 
+				label: 'rise',
+				click () { 
+					mainWindow.webContents.send('theme', '1')
+				}
+			}
+		]
+	},
+	{
+		role: 'window',
+		submenu: [
+			{ role: 'minimize' },
+			{ role: 'close' },
+			{
+				label: 'Toggle Developer Tools',
+				click () {
+					mainWindow.webContents.toggleDevTools()
+				}
+			},
 			{
 				label: 'Check for updates',
 				click () { autoUpdater.checkForUpdates() }
@@ -88,56 +100,25 @@ app.on('ready', function() {
 		]
 	},
 	{
-		label: 'Edit',
-			submenu: [
-			{ role: 'cut' },
-			{ role: 'copy' },
-			{ role: 'paste' },
-			{ role: 'delete' },
-			{ role: 'selectall' }
-			]
-	},
-	{
-		label: 'View',
-			submenu: [
-			{ role: 'reload' },
-			{ role: 'toggledevtools' },
-			{ type: 'separator' },
-			{ role: 'resetzoom' },
-			{ role: 'zoomin' },
-			{ role: 'zoomout' },
-			{ type: 'separator' },
-			{ role: 'togglefullscreen' }
-			]
-	},
-	{
-		role: 'window',
-			submenu: [
-			{ role: 'minimize' },
-			{ role: 'close' }
-			]
-	},
-	{
-		role: 'help',
-			submenu: [
+		role: 'Help',
+		submenu: [
 			{
-						label: 'Learn More',
-						click () { require('electron').shell.openExternal('http://electron.atom.io') }
+				label: 'Learn More',
+				click () { require('electron').shell.openExternal('https://github.com/tbushman/breath/blob/master/README.md') }
 			}
-			]
+		]
 	}]
-	
+		
 	mainWindow.focus();
-		// Target HTML file which will be opened in window
-		mainWindow.loadURL('file://' + __dirname + '/index.html');
+	// Target HTML file which will be opened in window
+	mainWindow.loadURL('file://' + __dirname + '/index.html');
 		
 	var menu = Menu.buildFromTemplate(template)
 	Menu.setApplicationMenu(menu);
 	
-		
-		// Cleanup when window is closed
-		mainWindow.on('closed', function() {
+	// Cleanup when window is closed
+	mainWindow.on('closed', function() {
 		mainWindow = null;
-		});
+	});
  
 });

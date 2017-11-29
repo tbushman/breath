@@ -21,16 +21,8 @@
   "build": {
     "appId": "com.electron.breath_b",
     "productName": "breath_b",
-    "asar": true,
-    "publish": [
-      {
-        "provider": "generic",
-        "url": "https://s3-us-west-2.amazonaws.com/traceybushman/b"
-      },
-      {
-        "provider": "github"
-      }
-    ],
+    "asar": false,
+    "publish": null,
     "extraResources": [
       "extra"
     ],
@@ -38,9 +30,6 @@
       "icon": "build/favicon.ico",
       "target": "nsis",
       "publisherName": "Open Source Developer, Tracey Bushman"
-    },
-    "squirrelWindows": {
-      "iconUrl": "build/favicon.ico"
     }
   },
   "homepage": "https://s3-us-west-2.amazonaws.com/traceybushman/b",

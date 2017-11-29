@@ -1,70 +1,75 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>breath</title>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+	<head>
+		<meta charset="UTF-8">
+		<title>breath</title>
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
-    <style>
-      body {
-        overflow: hidden;
-        margin:0;
-        padding: 0;
-      }
-      #loading {
-        position: absolute;
-        width: 100%;
-        top: 45%;
-        text-align: center;
-      }
-      #serverLog {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        display: none;
-      }
-      .expressApp {
-        display: flex !important;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="loading">
-      <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-    </div>
-    <div id="serverLog"></div>
-    <webview id="expressApp" class="expressApp"></webview>
+		<style>
+			body {
+				overflow: hidden;
+				margin:0;
+				padding: 0;
+			}
+			#loading {
+				position: absolute;
+				width: 100%;
+				top: 45%;
+				text-align: center;
+			}
+			#serverLog {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				display: none;
+			}
+			.expressApp {
+				display: flex !important;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="loading">
+			<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+		</div>
+		<div id="serverLog"></div>
+		<webview id="expressApp" class="expressApp"></webview>
 
-    <script>
-      window.$ = window.jQuery = require("jquery");
-      const expressAppUrl = "http://127.0.0.1:3010",
-      spawn = require("child_process").spawn,
-      fork = require("child_process").fork,
-      app = require('electron').remote.app,
-      request = require("request"),
-      _ = require("lodash"),
-      $serverLog = $("#serverLog"),
-      $expressApp = $("#expressApp"),
-      $loading = $("#loading"),
-      async = require('async'),
-      path = require("path"),
-      fs = require('fs'),
-      mkdirp = require('mkdirp'),
-      apppath = app.getAppPath(),
-      devcwd  = path.join(__dirname, '..'),
-      cwd = __dirname,
-      os = require('os'),
-      ipcRenderer = require('electron').ipcRenderer,
-      dialog = require('electron').remote.dialog,
-      counter = 0,
-      doc = window.document;
+		<script>
+			window.$ = window.jQuery = require("jquery");
+			const expressAppUrl = "http://127.0.0.1:3010",
+			spawn = require("child_process").spawn,
+			fork = require("child_process").fork,
+			app = require('electron').remote.app,
+			request = require("request"),
+			_ = require("lodash"),
+			$serverLog = $("#serverLog"),
+			$expressApp = $("#expressApp"),
+			$loading = $("#loading"),
+			async = require('async'),
+			path = require("path"),
+			fs = require('fs'),
+			mkdirp = require('mkdirp'),
+			apppath = app.getAppPath(),
+			devcwd	= path.join(__dirname, '..'),
+			cwd = __dirname,
+			os = require('os'),
+			ipcRenderer = require('electron').ipcRenderer,
+			dialog = require('electron').remote.dialog,
+			doc = window.document,
+			screen = window.screen,
+			screenWidth = screen.availWidth,
+			screenHeight = screen.availHeight;
+		var theme = 0,
+			nodepath;
 		if (os.platform() === 'win32') {
-			nodepath = path.join(devcwd, 'extra\\node.exe'),
+			nodepath = path.join(devcwd, 'extra\\node.exe');
 		} else {
-			nodepath = path.join(devcwd, 'extra/node'),
+			nodepath = path.join(devcwd, 'extra/node');
 		}
 			
 		var pipe2;
@@ -79,18 +84,25 @@
 			if (err) {
 				return console.log(err)
 			}
+			ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme})
 			redirectOutput(pipe1.stdout);
-		  redirectOutput(pipe1.stderr);
-			
+			redirectOutput(pipe1.stderr);
 		});
 
 		ipcRenderer.on('home', function(event, message) {
 			if (message === 'home') {
 				$expressApp.attr("src", "http://127.0.0.1:3010");
 			}
-		})
+		});
+		ipcRenderer.on('theme', function(event, message) {
+			theme = parseInt(message,10);
+			$expressApp.attr('src', 'http://127.0.0.1:3010/index/'+message+'');
+			setTimeout(function(){
+				ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme});
+			},1500);
+		});
 		function strip(s) {
-        // regex from: http://stackoverflow.com/a/29497680/170217
+				// regex from: http://stackoverflow.com/a/29497680/170217
 			return s.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
 		}
 		function redirectOutput(x) {
@@ -119,6 +131,6 @@
 		}, 1000);
 		
 		
-    </script>
-  </body>
+		</script>
+	</body>
 </html>
