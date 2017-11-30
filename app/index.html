@@ -42,7 +42,7 @@
 		<script>
 			window.$ = window.jQuery = require("jquery");
 			const expressAppUrl = "http://127.0.0.1:3010",
-			spawn = require("cross-spawn"),
+			spawn = require("child_process").spawn,
 			fork = require("child_process").fork,
 			app = require('electron').remote.app,
 			request = require("request"),
@@ -67,7 +67,7 @@
 		var theme = 0,
 			nodepath;
 		if (os.platform() === 'win32') {
-			nodepath = path.join(devcwd, 'extra\\node.exe');
+			nodepath = path.join(devcwd, 'extra\\node');
 		} else {
 			nodepath = path.join(devcwd, 'extra/node');
 		}

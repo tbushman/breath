@@ -1,3 +1,3 @@
 const electron = require('electron'),
-proc = require('cross-spawn'),
+proc = require('child_process').spawn,
 child = proc(electron, ['.']);
