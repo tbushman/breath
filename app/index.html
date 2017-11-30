@@ -42,8 +42,8 @@
 		<script>
 			window.$ = window.jQuery = require("jquery");
 			const expressAppUrl = "http://127.0.0.1:3010",
-			spawn = require("child_process").spawn,
-			fork = require("child_process").fork,
+			spawn = require("cross-spawn"),
+			fork = require("child_proces").fork,
 			app = require('electron').remote.app,
 			request = require("request"),
 			_ = require("lodash"),
