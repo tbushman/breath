@@ -36,7 +36,8 @@
   "homepage": "https://s3-us-west-2.amazonaws.com/traceybushman/b",
   "devDependencies": {
     "electron": "^1.8.0",
-    "electron-builder": "^19.47.0"
+    "electron-builder": "^19.47.0",
+    "lodash": "^4.17.4"
   },
   "dependencies": {
     "jquery": "^3.1.1",
