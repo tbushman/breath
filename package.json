@@ -2,7 +2,7 @@
   "name": "breath",
   "productName": "breath",
   "description": "Electron deployer for custom app",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/tbushman/breath.git"
@@ -29,16 +29,17 @@
     "win": {
       "icon": "build/favicon.ico",
       "target": "nsis",
-      "publisherName": "Open Source Developer, Tracey Bushman"
+      "publisherName": "Open Source Developer, Tracey Bushman",
+      "certificateSubjectName": "Open Source Developer, Tracey Bushman"
     }
   },
   "homepage": "https://s3-us-west-2.amazonaws.com/traceybushman/b",
   "devDependencies": {
     "electron": "^1.8.0",
-    "electron-builder": "^19.27.3"
+    "electron-builder": "^19.47.0"
   },
   "dependencies": {
     "jquery": "^3.1.1",
-    "winston": "^2.3.1"
+    "winston": "^2.4.0"
   }
 }
