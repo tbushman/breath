@@ -7,7 +7,7 @@
     "url": "https://github.com/tbushman/breath.git"
   },
   "description": "breath",
-  "main": "main.js",
+  "main": "app.js",
   "author": "TBushman",
   "license": "MIT",
   "dependencies": {
