@@ -15,6 +15,7 @@ node.exe
 node.lib
 breathdb
 breathdb/db*
+.npm
 
 # Logs
 logs
