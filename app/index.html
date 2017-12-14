@@ -65,12 +65,7 @@
 			screenWidth = screen.availWidth,
 			screenHeight = screen.availHeight;
 		var theme = 0,
-			nodepath;
-		if (os.platform() === 'win32') {
-			nodepath = path.join(devcwd, 'extra\\node.exe');
-		} else {
 			nodepath = path.join(devcwd, 'extra/node');
-		}
 			
 		var pipe2;
 		var pipe3;

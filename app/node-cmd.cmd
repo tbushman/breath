@@ -12,7 +12,7 @@ call node-env.cmd
 :: open a new command prompt window, with appropriate title.
 setlocal
 set PROMPT=[node] $p$_$g 
-start "Node Environment" /D %NODE_ENV% cmd /K "node ^-^-version"
+start "Node Environment" /D %NODE_ENV% cmd.exe /K "node ^-^-version"
 
 :EXIT
 

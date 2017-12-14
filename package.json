@@ -29,8 +29,7 @@
     "win": {
       "icon": "build/favicon.ico",
       "target": "appx",
-      "publisherName": "Open Source Developer, Tracey Bushman",
-      "certificateSubjectName": "Open Source Developer, Tracey Bushman"
+      "publisherName": "Open Source Developer, Tracey Bushman"
     }
   },
   "homepage": "https://s3-us-west-2.amazonaws.com/traceybushman/b",
