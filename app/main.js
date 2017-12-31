@@ -92,10 +92,6 @@ app.on('ready', function() {
 				click () {
 					mainWindow.webContents.toggleDevTools()
 				}
-			},
-			{
-				label: 'Check for updates',
-				click () { autoUpdater.checkForUpdates() }
 			}
 		]
 	},
