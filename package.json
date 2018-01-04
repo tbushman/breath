@@ -2,7 +2,7 @@
   "name": "breath",
   "productName": "breath",
   "description": "Electron deployer for custom app",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/tbushman/breath.git"
@@ -13,19 +13,14 @@
   "license": "MIT",
   "main": "main.js",
   "scripts": {
-    "postinstall": "install-app-deps",
-    "start": "./app/node-cmd.cmd && npm install && node ./app/start-electron.js",
+    "start": "node ./app/start-electron.js",
     "pack": "build --dir",
     "dist": "build --win"
   },
   "build": {
     "appId": "com.electron.breath_b",
     "productName": "breath_b",
-    "asar": false,
     "publish": null,
-    "extraResources": [
-      "extra"
-    ],
     "win": {
       "icon": "build/favicon.ico",
       "target": "nsis",
