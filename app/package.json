@@ -9,5 +9,8 @@
   "description": "breath",
   "main": "main.js",
   "author": "TBushman",
-	"license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.1.1"
+  }
 }
