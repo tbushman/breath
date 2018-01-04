@@ -5,6 +5,7 @@
 		<link rel="icon" href="img/favicon.ico" type="image/x-icon" >
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" >
 		<link rel="stylesheet" href="style.css" >
+		<script type="text/javascript" src="scripts/jquery-3.2.1.min.js" ></script>
 		<style id="style" type="text/css"></style>
 	</head>
 			
@@ -27,7 +28,7 @@
 		<div class="container">
 		</div>
 		<script type="text/javascript">
-			const ipcRenderer = require('electron').ipcRenderer,
+			var ipcRenderer = require('electron').ipcRenderer,
 				window.$ = window.jQuery = require('jquery'),
 				screen = window.screen,
 				screenWidth = screen.availWidth,
@@ -35,7 +36,6 @@
 			ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme})
 			ipcRenderer.on('theme', function(event, message) {
 				var theme = parseInt(message, 10);
-				var themedom = document.
 				$('#theme').val(message);
 				setTimeout(function(){
 					ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme});
