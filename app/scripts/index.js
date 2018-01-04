@@ -1,4 +1,8 @@
-var $ = require('jquery');
+var $ = require('jquery'),
+	ipcRenderer = require('electron').ipcRenderer,
+	screen = window.screen,
+	screenWidth = screen.availWidth,
+	screenHeight = screen.availHeight;
 var index = parseInt($('#theme').val(), 10);
 var mode = $('#mode').val();
 //var theme = $('#theme').val();
@@ -64,6 +68,16 @@ setBreath, setSpeed;
 
 $(document).ready(function(){
 	updateCss(index, cssTime, cssHold);
+});
+
+ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: 0})
+ipcRenderer.on('theme', function(event, message) {
+	var theme = parseInt(message, 10);
+	$('#theme').val(message);
+	setTimeout(function(){
+		updateCss(theme, cssTime, cssHold);
+		ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme});
+	},1500);
 });
 
 function updateCss(index, cssTime, cssHold) {
