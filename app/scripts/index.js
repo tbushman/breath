@@ -1,3 +1,4 @@
+var $ = require('jquery');
 var index = parseInt($('#theme').val(), 10);
 var mode = $('#mode').val();
 //var theme = $('#theme').val();
