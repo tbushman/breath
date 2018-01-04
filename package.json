@@ -21,7 +21,6 @@
     "appId": "com.electron.breath_b",
     "productName": "breath_b",
     "publish": null,
-    "asar": false,
     "win": {
       "icon": "build/favicon.ico",
       "target": "nsis",

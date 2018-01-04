@@ -28,12 +28,13 @@
 		<div class="container">
 		</div>
 		<script type="text/javascript">
+
 			var ipcRenderer = require('electron').ipcRenderer,
 				$ = require('jquery'),
 				screen = window.screen,
 				screenWidth = screen.availWidth,
 				screenHeight = screen.availHeight;
-			ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme})
+			ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: 0})
 			ipcRenderer.on('theme', function(event, message) {
 				var theme = parseInt(message, 10);
 				$('#theme').val(message);
