@@ -1,0 +1,13 @@
+{
+  "name": "breath",
+  "productName": "breath",
+  "version": "0.0.5",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tbushman/breath.git"
+  },
+  "description": "breath",
+  "main": "main.js",
+  "author": "TBushman",
+	"license": "MIT"
+}
