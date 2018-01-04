@@ -28,7 +28,7 @@
     ],
     "win": {
       "icon": "build/favicon.ico",
-      "target": "appx",
+      "target": "nsis",
       "publisherName": "Open Source Developer, Tracey Bushman"
     }
   },
