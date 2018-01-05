@@ -1,6 +1,6 @@
-//var $ = require('jquery'),
-	//ipcRenderer = require('electron').ipcRenderer,
-	var screen = window.screen,
+var $ = require('jquery'),
+	ipcRenderer = require('electron').ipcRenderer,
+	screen = window.screen,
 	screenWidth = screen.availWidth,
 	screenHeight = screen.availHeight;
 var index = parseInt($('#theme').val(), 10);
@@ -84,7 +84,7 @@ $(document).ready(function(){
 	updateCss(index, cssTime, cssHold);
 });
 
-/*ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: 0})
+ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: 0})
 ipcRenderer.on('theme', function(event, message) {
 	var theme = parseInt(message, 10);
 	$('#theme').val(message);
@@ -92,7 +92,7 @@ ipcRenderer.on('theme', function(event, message) {
 		updateCss(theme, cssTime, cssHold);
 		ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme});
 	},1500);
-});*/
+});
 
 function updateCss(index, cssTime, cssHold) {
 	transProperty = Object.keys(data[index])[0];
@@ -240,10 +240,6 @@ $(document).on('change', '#breath', function(e){
 	// store global time var;
 	time = e.target.valueAsNumber;
 
-	// post server vars and reload page
-	/*$.post('/change/'+index+'/'+time+'/'+hold+'', function(){
-		window.location.href = '/init'
-	})*/
 	updateCss(index, time, hold);
 });
 
