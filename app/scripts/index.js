@@ -98,13 +98,14 @@ ipcRenderer.on('theme', function(event, message) {
 		cssHold = hold / 1000;
 		
 		updateCss(theme, cssTime, cssHold);
-		// reset clock
-		stopInterval();
 		ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme});
 	},1500);
 });
 
 function updateCss(index, cssTime, cssHold) {
+	$('#style').html('');
+	$('.container').html('');
+
 	transProperty = Object.keys(data[index])[0];
 	transValues = data[index][transProperty];
 	transProperties = Object.keys(data[index]);
@@ -146,8 +147,7 @@ function updateCss(index, cssTime, cssHold) {
 	for (var i = 0; i < data[index].amount; i++) {
 		arr.push(i);
 	}
-	$('#style').html(css);
-	$('.container').html('');
+	$('#style').append(css);
 	for (var i in arr) {
 		$('.container').append(
 			"<div class='lung lung_"+i+"' title='"+mode+"'></div>"
