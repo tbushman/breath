@@ -43,6 +43,7 @@ var data = [
 		"height": ["8px", "80px"]
 	},
 	{
+		// inspired by https://tympanus.net/codrops/2013/05/22/examples-of-pseudo-elements-animations-and-transitions/
 		"amount": 1,
 		"container": {
 			"height": "100%",

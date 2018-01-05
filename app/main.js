@@ -38,7 +38,7 @@ ipcMain.on('screen-size', function(e, size){
 // chrome resolution fix
 app.commandLine.appendSwitch('high-dpi-support', 1);
 app.commandLine.appendSwitch('force-device-scale-factor', 1);
-//app.setBounds(bounds);
+
 // Quit when all windows are closed
 app.on('window-all-closed', function() {	
 	app.quit();
