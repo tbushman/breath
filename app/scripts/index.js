@@ -50,11 +50,11 @@ var data = [
 		},
 		"border-radius": ["100%", "100%"],
 		"box-shadow": [
-			"inset 2em 0 0 rgba(74,61,206, 0.2), inset 0 2em 0 rgba(74,61,206, 0.2), inset -2em 0 0 rgba(74,61,206, 0.2), inset 0 -2em 0 rgba(74,61,206, 0.2)",
-			"inset 4em 0 0 rgba(224,18,112, 0.5), inset 0 4em 0 rgba(84,91,210, 0.5), inset -4em 0 0 rgba(33,252,221, 0.5), inset 0 -4em 0 rgba(218,21,33, 0.5)"
+			"inset 42px 0 0 rgba(74,61,206, 0.2), inset 0 42px 0 rgba(74,61,206, 0.2), inset -42px 0 0 rgba(74,61,206, 0.2), inset 0 -42px 0 rgba(74,61,206, 0.2)",
+			"inset 42px 0 0 rgba(224,18,112, 0.5), inset 0 42px 0 rgba(84,91,210, 0.5), inset -42px 0 0 rgba(33,252,221, 0.5), inset 0 -42px 0 rgba(218,21,33, 0.5)"
 		],
-		"width": ["10%", "calc(100% - 30px)"],
-		"height": ["10%", "calc(100% - 30px)"],
+		"width": ["25%", "calc(100% - 30px)"],
+		"height": ["25%", "calc(100% - 30px)"],
 		"background-color": ["#ffffff", "#ffffff"],
 		"min-height": ["10%", "10%"],
 		"margin-top": ["0", "0"],
@@ -62,7 +62,7 @@ var data = [
 		"margin-bottom": ["0", "0"],
 		"margin-left": ["auto", "auto"],
 		"top": ["50%", "50%"],
-		"transform": ["translateY(-50%) rotate(0deg)", "translateY(-50%) rotate(270deg)"]
+		"transform": ["translate(0,-50%) rotate(0deg)", "translate(0,-50%) rotate(270deg)"]
 	}
 	
 ];
