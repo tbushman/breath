@@ -146,8 +146,8 @@ function updateCss(index, cssTime, cssHold) {
 	for (var i = 0; i < data[index].amount; i++) {
 		arr.push(i);
 	}
-	$('#style').append(css);
-	
+	$('#style').html(css);
+	$('.container').html('');
 	for (var i in arr) {
 		$('.container').append(
 			"<div class='lung lung_"+i+"' title='"+mode+"'></div>"
