@@ -91,7 +91,7 @@ ipcRenderer.on('theme', function(event, message) {
 		cssHold = hold / 1000;
 		
 		updateCss(index, cssTime, cssHold);
-		ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme});
+		ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: index});
 	},1500);
 });
 
