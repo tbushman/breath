@@ -89,7 +89,17 @@ ipcRenderer.on('theme', function(event, message) {
 	var theme = parseInt(message, 10);
 	$('#theme').val(message);
 	setTimeout(function(){
+		//store time var
+		time = parseInt($('#breath').val(), 10);
+		cssTime = time / 1000;
+		
+		// store hold var
+		hold = parseInt($('#hold').val(), 10);
+		cssHold = hold / 1000;
+		
 		updateCss(theme, cssTime, cssHold);
+		// reset clock
+		stopInterval();
 		ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme});
 	},1500);
 });
