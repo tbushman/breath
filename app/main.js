@@ -6,7 +6,8 @@ var Menu = electron.Menu;
 var counter = 0;
 var scale = [
 	{w:150, h:150},
-	{w:130, h:555}
+	{w:130, h:555},
+	{w:150, h:150}
 ]
 
 
@@ -76,6 +77,12 @@ app.on('ready', function() {
 				label: 'rise',
 				click () { 
 					mainWindow.webContents.send('theme', '1')
+				}
+			},
+			{ 
+				label: 'bloom',
+				click () { 
+					mainWindow.webContents.send('theme', '2')
 				}
 			}
 		]

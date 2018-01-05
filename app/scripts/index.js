@@ -1,6 +1,6 @@
-var $ = require('jquery'),
-	ipcRenderer = require('electron').ipcRenderer,
-	screen = window.screen,
+//var $ = require('jquery'),
+	//ipcRenderer = require('electron').ipcRenderer,
+	var screen = window.screen,
 	screenWidth = screen.availWidth,
 	screenHeight = screen.availHeight;
 var index = parseInt($('#theme').val(), 10);
@@ -39,21 +39,35 @@ var data = [
 		"margin-top": ["2px", "6%"],
 		"width": ["100%", "100%"],
 		"height": ["8px", "80px"]
+	},
+	{
+		"amount": 1,
+		"container": {
+			"height": "100%",
+			"top": "0"
+		},
+		"border-radius": ["100%", "100%"],
+		"box-shadow": [
+			"inset 2em 0 0 rgba(74,61,206, 0.2), inset 0 2em 0 rgba(74,61,206, 0.2), inset -2em 0 0 rgba(74,61,206, 0.2), inset 0 -2em 0 rgba(74,61,206, 0.2)",
+			"inset 4em 0 0 rgba(224,18,112, 0.5), inset 0 4em 0 rgba(84,91,210, 0.5), inset -4em 0 0 rgba(33,252,221, 0.5), inset 0 -4em 0 rgba(218,21,33, 0.5)"
+		],
+		"width": ["10%", "calc(100% - 30px)"],
+		"height": ["10%", "calc(100% - 30px)"],
+		"background-color": ["#ffffff", "#ffffff"],
+		"min-height": ["10%", "10%"],
+		"margin-top": ["0", "0"],
+		"margin-right": ["auto", "auto"],
+		"margin-bottom": ["0", "0"],
+		"margin-left": ["auto", "auto"],
+		"top": ["50%", "50%"],
+		"transform": ["translateY(-50%) rotate(0deg)", "translateY(-50%) rotate(270deg)"]
 	}
+	
 ];
 
-//data = JSON.parse(data);
-var transProperty = Object.keys(data[index])[0];
-var transValues = data[index][transProperty];
-var transProperties = Object.keys(data[index]);
-
-transProperties = transProperties.filter(function(key){
-	return Array.isArray(data[index][key]);
-});
+var transProperty, transValues, transProperties, tpLength; 
 
 var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
-// number of transition properties in given theme
-var tpLength = transProperties.length;
 // how long to inhale or exhale
 var time = parseInt($('#breath').val(), 10);
 var cssTime = time / 1000;
@@ -70,7 +84,7 @@ $(document).ready(function(){
 	updateCss(index, cssTime, cssHold);
 });
 
-ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: 0})
+/*ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: 0})
 ipcRenderer.on('theme', function(event, message) {
 	var theme = parseInt(message, 10);
 	$('#theme').val(message);
@@ -78,9 +92,17 @@ ipcRenderer.on('theme', function(event, message) {
 		updateCss(theme, cssTime, cssHold);
 		ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme});
 	},1500);
-});
+});*/
 
 function updateCss(index, cssTime, cssHold) {
+	transProperty = Object.keys(data[index])[0];
+	transValues = data[index][transProperty];
+	transProperties = Object.keys(data[index]);
+	tpLength = transProperties.length;
+
+	transProperties = transProperties.filter(function(key){
+		return Array.isArray(data[index][key]);
+	});
 	var css = `
 	@charset 'UTF-8';
 	:root { 
