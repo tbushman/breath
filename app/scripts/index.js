@@ -79,7 +79,7 @@ var cssHold = hold / 1000;
 
 ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: 0})
 ipcRenderer.on('theme', function(event, message) {
-	var theme = parseInt(message, 10);
+	index = parseInt(message, 10);
 	$('#theme').val(message);
 	setTimeout(function(){
 		//store time var
@@ -90,7 +90,7 @@ ipcRenderer.on('theme', function(event, message) {
 		hold = parseInt($('#hold').val(), 10);
 		cssHold = hold / 1000;
 		
-		updateCss(theme, cssTime, cssHold);
+		updateCss(index, cssTime, cssHold);
 		ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme});
 	},1500);
 });
@@ -131,7 +131,8 @@ $(document).on('change', '#breath', function(e){
 	// store global time var;
 	time = e.target.valueAsNumber;
 	cssTime = time / 1000;
-
+	
+	index = parseInt($('#theme').val(), 10);
 	updateCss(index, cssTime, cssHold);
 });
 
