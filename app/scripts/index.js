@@ -2,10 +2,12 @@ var $ = require('jquery'),
 	ipcRenderer = require('electron').ipcRenderer,
 	screen = window.screen,
 	screenWidth = screen.availWidth,
-	screenHeight = screen.availHeight;
-var index = parseInt($('#theme').val(), 10);
-var mode = $('#mode').val();
-//var theme = $('#theme').val();
+	screenHeight = screen.availHeight,
+	index = parseInt($('#theme').val(), 10),
+	mode = $('#mode').val();
+
+// Each design has general properties: "amount" is # of divs, and container is the divs' wrapper
+// Each design also has css properties for ["inhale", "exhale"]
 var data = [
 	{
 		"amount": 1,
@@ -64,8 +66,8 @@ var data = [
 	}
 	
 ];
-
-var transProperty, transValues, transProperties, tpLength; 
+// Make vars globally available
+var transProperties, setBreath, setSpeed;; 
 
 var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 // how long to inhale or exhale
@@ -74,11 +76,6 @@ var cssTime = time / 1000;
 // how long to hold breath
 var hold = parseInt($('#hold').val(), 10);
 var cssHold = hold / 1000;
-// number of divs in theme
-var arrLength = data[index].amount,
-
-// predefine setInterval variable
-setBreath, setSpeed;
 
 ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: 0})
 ipcRenderer.on('theme', function(event, message) {
@@ -92,46 +89,84 @@ ipcRenderer.on('theme', function(event, message) {
 		// store hold var
 		hold = parseInt($('#hold').val(), 10);
 		cssHold = hold / 1000;
-		for (var i = 0; i < data[theme].amount; i++) {
-			var lung = document.getElementsByClassName('lung_'+i+'')[0];
-			addClass(lung, transProperties.length);
-		}
+		
 		updateCss(theme, cssTime, cssHold);
 		ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme});
 	},1500);
+});
+
+$(document).ready(function(){
+	updateCss(index, cssTime, cssHold);
+
+	stopInterval();
+});
+
+$(document).on('change', '#breath', function(e){
+	// change hold input (hidden) to scale when breath input changes
+	// calc change
+	var minVal = Math.min(e.target.valueAsNumber, time);
+	var maxVal = Math.max(e.target.valueAsNumber, time);
+	var diff = maxVal - minVal;
+	
+	// if increase
+	if (e.target.valueAsNumber > time) {
+		$('.mod').not('#breath').each(function(i, node){
+			var thisVal = parseInt($(node).val(), 10);
+			$(node).val(thisVal + diff);
+		});
+		
+	} else {
+		// decrease
+		$('.mod').not('#breath').each(function(i, node){
+			var thisVal = parseInt($(node).val(), 10);
+			$(node).val(thisVal - diff);
+		});
+	}
+	
+	// reset clock
+	stopInterval();
+	// store hold var
+	hold = parseInt($('#hold').val(), 10);
+	cssHold = hold / 1000;
+	// store global time var;
+	time = e.target.valueAsNumber;
+	cssTime = time / 1000;
+
+	updateCss(index, cssTime, cssHold);
 });
 
 function updateCss(index, cssTime, cssHold) {
 	$('#style').html('');
 	$('.container').html('');
 
-	transProperty = Object.keys(data[index])[0];
-	transValues = data[index][transProperty];
+	var transProperty = Object.keys(data[index])[0];
+	var transValues = data[index][transProperty];
 	transProperties = Object.keys(data[index]);
-	tpLength = transProperties.length;
 
 	transProperties = transProperties.filter(function(key){
 		return Array.isArray(data[index][key]);
 	});
+	
 	var css = `
-	@charset 'UTF-8';
-	:root { 
-		--transProperty: ${transProperties.join(',')};
-	}
-	.container {
-		height: ${data[index].container.height};
-		top: ${data[index].container.top};
-	}
-	.lung {
-		transition-property: var(--transProperty);
-		transition-duration: ${cssTime ? cssTime : 4}s;
-		position: relative;
-	}
-	.lung[title='in'] {
-		transition-delay: ${cssHold ? cssHold : 2}s;
-	}
+		@charset 'UTF-8';
+		:root { 
+			--transProperty: ${transProperties.join(',')};
+		}
+		.container {
+			height: ${data[index].container.height};
+			top: ${data[index].container.top};
+		}
+		.lung {
+			transition-property: var(--transProperty);
+			transition-duration: ${cssTime ? cssTime : 4}s;
+			position: relative;
+		}
+		.lung[title='in'] {
+			transition-delay: ${cssHold ? cssHold : 2}s;
+		}
 	`;
-	// each transition property is a className
+	
+	// each transition property is an alphabetical className
 	for (var i in transProperties) {
 		if (i < 26) {
 			css += `.lung[title='in'].${alphabet[i]} {
@@ -142,15 +177,17 @@ function updateCss(index, cssTime, cssHold) {
 			}`
 		}
 	}
-	var arr = []
-	for (var i = 0; i < data[index].amount; i++) {
-		arr.push(i);
-	}
+
 	$('#style').append(css);
-	for (var i in arr) {
+
+	for (var i = 0; i < data[index].amount; i++) {
 		$('.container').append(
 			"<div class='lung lung_"+i+"' title='"+mode+"'></div>"
 		)
+	}
+	for (var i = 0; i < data[index].amount; i++) {
+		var lung = document.getElementsByClassName('lung_'+i+'')[0];
+		addClass(lung, transProperties.length);
 	}
 }
 
@@ -195,7 +232,9 @@ function stopInterval(){
 	cancelAnimationFrame(setBreath.value);
 	// store vars
 	hold = parseInt($('#hold').val(), 10);
+	cssHold = hold / 1000;
 	time = parseInt($('#breath').val(), 10);
+	cssTime = time / 1000;
 	// icon placement
 	switch(hold){
 		case 1000:
@@ -212,47 +251,6 @@ function stopInterval(){
 	}
 	resetBreath();
 }
-$(document).ready(function(){
-	for (var i = 0; i < arrLength; i++) {
-		var lung = document.getElementsByClassName('lung_'+i+'')[0];
-		addClass(lung, tpLength);
-	}
-	updateCss(index, cssTime, cssHold);
-
-	stopInterval();
-});
-
-$(document).on('change', '#breath', function(e){
-	// change hold input (hidden) to scale when breath input changes
-	// calc change
-	var minVal = Math.min(e.target.valueAsNumber, time);
-	var maxVal = Math.max(e.target.valueAsNumber, time);
-	var diff = maxVal - minVal;
-	
-	// if increase
-	if (e.target.valueAsNumber > time) {
-		$('.mod').not('#breath').each(function(i, node){
-			var thisVal = parseInt($(node).val(), 10);
-			$(node).val(thisVal + diff);
-		});
-		
-	} else {
-		// decrease
-		$('.mod').not('#breath').each(function(i, node){
-			var thisVal = parseInt($(node).val(), 10);
-			$(node).val(thisVal - diff);
-		});
-	}
-	
-	// reset clock
-	stopInterval();
-	// store hold var
-	hold = parseInt($('#hold').val(), 10);
-	// store global time var;
-	time = e.target.valueAsNumber;
-
-	updateCss(index, time, hold);
-});
 
 // for each transition property, add a class to each .lung node with alphabetical character
 function addClass(node, tpL){
