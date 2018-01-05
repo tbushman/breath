@@ -80,10 +80,6 @@ var arrLength = data[index].amount,
 // predefine setInterval variable
 setBreath, setSpeed;
 
-$(document).ready(function(){
-	updateCss(index, cssTime, cssHold);
-});
-
 ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: 0})
 ipcRenderer.on('theme', function(event, message) {
 	var theme = parseInt(message, 10);
@@ -96,7 +92,10 @@ ipcRenderer.on('theme', function(event, message) {
 		// store hold var
 		hold = parseInt($('#hold').val(), 10);
 		cssHold = hold / 1000;
-		
+		for (var i = 0; i < data[theme].amount; i++) {
+			var lung = document.getElementsByClassName('lung_'+i+'')[0];
+			addClass(lung, transProperties.length);
+		}
 		updateCss(theme, cssTime, cssHold);
 		ipcRenderer.send('screen-size', {screenwidth: screenWidth, screenheight: screenHeight, theme: theme});
 	},1500);
@@ -218,6 +217,8 @@ $(document).ready(function(){
 		var lung = document.getElementsByClassName('lung_'+i+'')[0];
 		addClass(lung, tpLength);
 	}
+	updateCss(index, cssTime, cssHold);
+
 	stopInterval();
 });
 
