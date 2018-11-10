@@ -84,6 +84,11 @@ app.on('ready', function() {
 				click () { 
 					mainWindow.webContents.send('theme', '2')
 				}
+			},
+			{
+				label: 'Quit',
+				accelerator: process.platform === 'darwin' ? 'Cmd+Q' : 'Ctrl+Q',
+				role: 'quit'
 			}
 		]
 	},
