@@ -19,6 +19,7 @@ body {
 	overflow: hidden;
 }
 body * {
+	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
 }
 a {
@@ -30,6 +31,8 @@ a {
 	backface-visibility: hidden;
 	-webkit-perspective: 0;
 	border: 1px solid rgba(255,255,255,0);
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0);
 }
 
 .tb-input {

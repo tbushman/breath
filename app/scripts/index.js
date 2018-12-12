@@ -29,7 +29,7 @@ var data = [
 		"margin-bottom": ["0", "0"],
 		"margin-left": ["auto", "auto"],
 		"top": ["50%", "50%"],
-		"transform": ["translateY(-50%) rotate(0deg)", "translateY(-50%) rotate(270deg)"]
+		"transform": ["translateY(-50%) translateZ(0) rotate(0deg)", "translateY(-50%) translateZ(0) rotate(270deg)"]
 	},
 	{
 		"amount": 6,
@@ -63,7 +63,7 @@ var data = [
 		"margin-bottom": ["0", "0"],
 		"margin-left": ["auto", "auto"],
 		"top": ["50%", "50%"],
-		"transform": ["translate(0,-50%) rotate(0deg)", "translate(0,-50%) rotate(270deg)"]
+		"transform": ["translate(0,-50%) translateZ(0) rotate(0deg)", "translate(0,-50%) translateZ(0) rotate(270deg)"]
 	}
 	
 ];
