@@ -1,4 +1,5 @@
 var electron = require('electron');
+var autoUpdater = require('electron-updater').autoUpdater;
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 var ipcMain = electron.ipcMain;
@@ -39,6 +40,11 @@ ipcMain.on('screen-size', function(e, size){
 app.commandLine.appendSwitch('high-dpi-support', 1);
 app.commandLine.appendSwitch('force-device-scale-factor', 1);
 
+autoUpdater.on('update-downloaded', (e) => {
+	console.log(e)
+	mainWindow.webContents.send('autoupdate', 'autoupdate')
+});
+
 // Quit when all windows are closed
 app.on('window-all-closed', function() {	
 	app.quit();
@@ -46,6 +52,7 @@ app.on('window-all-closed', function() {
 
 // When application is ready, create application window
 app.on('ready', function() {
+	autoUpdater.checkForUpdatesAndNotify();
 	windowWidth = windowWidth ? windowWidth : 150;
 	windowHeight = windowHeight ? windowHeight : 150;
 	app.setAppUserModelId('com.electron.breath_b');
@@ -53,13 +60,14 @@ app.on('ready', function() {
 	// Other options available at:
 	// http://electron.atom.io/docs/latest/api/browser-window/#new-browserwindow-options
 	mainWindow = new BrowserWindow({
-		name: "breath",
+		name: "Breath",
 		width: windowWidth,
 		height: windowHeight,
 		x: screenWidth ? bounds.x : 0,
 		y: screenHeight ? bounds.y : 0,
 		useContentSize: true,
-		minimizable: true
+		minimizable: true,
+		backgroundColor: '#37383a'
 	});
 	mainWindow.setAspectRatio(windowWidth/windowHeight);
 	var template = [

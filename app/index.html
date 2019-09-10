@@ -29,6 +29,19 @@
 		<script type="text/javascript" src="scripts/index.js">
 			
 		</script>
-		
+		<script>
+			var ipcRenderer = require('electron').ipcRenderer,
+			dialog = require('electron').remote.dialog;
+			ipcRenderer.on('autoupdate', function(){
+				dialog.showMessageBox({
+					message: 'An update has been downloaded and will be installed the next time you close this application.',
+					buttons: ['OK']
+				}, function(index){
+					if (index === 0) {
+						console.log('affirmative')
+					}
+				})
+			});
+		</script>
 	</body>
 </html>

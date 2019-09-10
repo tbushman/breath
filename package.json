@@ -2,7 +2,7 @@
 	"name": "breath",
 	"productName": "breath",
 	"description": "Electron deployer for custom app",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/tbushman/breath.git"
@@ -15,16 +15,34 @@
 	"scripts": {
 		"start": "node ./app/start-electron.js",
 		"pack": "build --dir",
-		"dist": "build --win"
+		"dist": "build --mac"
 	},
 	"build": {
+		"publish": [{
+			"provider": "generic",
+			"url": "https://s3-us-west-2.amazonaws.com/traceybushman/breathguide/mac"
+		}],
+		"dmg": {
+			"internetEnabled": true
+		},
+		"appx": {
+			"applicationId": "tbushman.BreathGuide",
+			"backgroundColor": "#ffffff",
+			"displayName": "Breath Guide",
+			"identityName": "42885tbushman.BreathGuide",
+			"publisher": "CN=40775903-59D6-49F9-A42E-62E06B06A8CF",
+			"publisherDisplayName": "TBushman"
+		},
+		"copyright": "pu.bli.sh",
 		"appId": "com.electron.breath_guide",
 		"productName": "Breath Guide",
-		"publish": null,
 		"mac": {
+			"appId": "com.electron.breath_guide",
 			"icon": "build/icon.icns",
 			"category": "public.app-category.healthcare-fitness",
-			"type": "distribution"
+			"type": "distribution",
+			"darkModeSupport": true,
+			"target": "dmg"
 		},
 		"win": {
 			"icon": "build/favicon.ico",
