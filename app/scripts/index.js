@@ -9,7 +9,7 @@ var $ = require('jquery'),
 // Each design has general properties: "amount" is # of divs, and container is the divs' wrapper
 // Each design also has css properties for ["inhale", "exhale"]
 var data = [
-	{
+  {
 		"amount": 1,
 		"container": {
 			"height": "100%",
