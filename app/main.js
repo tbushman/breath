@@ -1,5 +1,5 @@
 var electron = require('electron');
-var autoUpdater = require('electron-updater').autoUpdater;
+// var autoUpdater = require('electron-updater').autoUpdater;
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 var ipcMain = electron.ipcMain;
@@ -40,10 +40,10 @@ ipcMain.on('screen-size', function(e, size){
 app.commandLine.appendSwitch('high-dpi-support', 1);
 app.commandLine.appendSwitch('force-device-scale-factor', 1);
 
-autoUpdater.on('update-downloaded', (e) => {
-	console.log(e)
-	mainWindow.webContents.send('autoupdate', 'autoupdate')
-});
+// autoUpdater.on('update-downloaded', (e) => {
+// 	console.log(e)
+// 	mainWindow.webContents.send('autoupdate', 'autoupdate')
+// });
 
 // Quit when all windows are closed
 app.on('window-all-closed', function() {	
@@ -52,7 +52,7 @@ app.on('window-all-closed', function() {
 
 // When application is ready, create application window
 app.on('ready', function() {
-	autoUpdater.checkForUpdatesAndNotify();
+	// autoUpdater.checkForUpdatesAndNotify();
 	windowWidth = windowWidth ? windowWidth : 150;
 	windowHeight = windowHeight ? windowHeight : 150;
 	app.setAppUserModelId('com.electron.breath_b');

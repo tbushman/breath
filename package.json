@@ -15,7 +15,7 @@
 	"scripts": {
 		"start": "node ./app/start-electron.js",
 		"pack": "build --dir",
-		"dist": "build --mac"
+		"dist": "build --win"
 	},
 	"build": {
 		"publish": [{

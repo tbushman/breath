@@ -1,7 +1,7 @@
 {
   "name": "breath",
   "productName": "breath",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "repository": {
     "type": "git",
     "url": "https://github.com/tbushman/breath.git"
@@ -11,7 +11,6 @@
   "author": "TBushman",
   "license": "MIT",
   "dependencies": {
-    "electron-updater": "^4.0.6",
-    "jquery": "^3.3.1"
+    "jquery": "^3.4.1"
   }
 }
