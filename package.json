@@ -55,7 +55,7 @@
 	"devDependencies": {
 		"electron": "3.0.8",
 		"electron-builder": "^20.33.2",
-		"lodash": "^4.17.15"
+		"lodash": "^4.17.19"
 	},
 	"dependencies": {
 		"jquery": "^3.4.1"
